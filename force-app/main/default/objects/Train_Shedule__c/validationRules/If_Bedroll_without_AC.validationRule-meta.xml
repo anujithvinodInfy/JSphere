@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>If_Bedroll_without_AC</fullName>
+    <active>true</active>
+    <errorConditionFormula>Is_Ac__c == False &amp;&amp;  Bedroll_Required__c == True</errorConditionFormula>
+    <errorDisplayField>Bedroll_Required__c</errorDisplayField>
+    <errorMessage>Bedrolls will only be given to AC Tickets</errorMessage>
+</ValidationRule>

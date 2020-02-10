@@ -1,0 +1,38 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="TrainSheduleController">
+    <aura:attribute name="title" type="String" default="RailYathra"/>
+    <aura:attribute name="trainShed" type="Train_Shedule__c[]"
+                    default="[{'Name':'Name',
+                             'Name_of_Person__r.Name':'',
+                             'Boarding_Station__c':'Boarding_Station__c',
+                             'Destination_Station__c':'',
+                             'Date_of_Journey__c':'',
+                             'Train_Name_Code__c':'12121',
+                             'Is Talkal': true}]"/>
+    <aura:attribute name="columns" type="List"/>    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:icon iconName="custom:custom78" size="medium"/>
+            &nbsp;{!v.title }
+        </aura:set>
+        <aura:if isTrue="{!v.trainShed.length>0}">
+            <div style="height: 300px">
+                <lightning:datatable
+                                     keyField="id"
+                                     data="{! v.trainShed }"
+                                     columns="{! v.columns }"
+                                     hideCheckboxColumn="true"
+                                     aura:id="scheduleList"
+                                     />
+            </div>
+            <aura:set attribute="else">
+                <div style="background-color:#E3B050; text-align:center; font-size:15px; font-weight: bold">
+                    <b>You dont have any journey records</b></div>
+            </aura:set>
+        </aura:if>
+        <aura:set attribute="footer">
+            <button class="slds-button slds-button_brand" onclick="{!c.createRecord}">Add New</button>
+            
+        </aura:set>
+    </lightning:card>
+</aura:component>

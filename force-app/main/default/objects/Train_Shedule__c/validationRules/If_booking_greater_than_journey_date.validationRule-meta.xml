@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>If_booking_greater_than_journey_date</fullName>
+    <active>true</active>
+    <errorConditionFormula>Planned_Booking_Date__c &gt;= Date_of_Journey__c</errorConditionFormula>
+    <errorMessage>Booking Date should be before Journey Date</errorMessage>
+</ValidationRule>
