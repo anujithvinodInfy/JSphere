@@ -1,6 +1,6 @@
 public with sharing class TrainSheduleController {
     
-    @AuraEnabled
+    @AuraEnabled(cacheable = true)
     public static List<Train_Shedule__c> getAllJourneyInit()
     {
         List<Train_Shedule__c> listRecords= new List<Train_Shedule__c>();

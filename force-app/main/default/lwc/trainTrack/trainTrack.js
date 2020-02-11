@@ -1,4 +1,6 @@
-import { LightningElement, track, wire } from 'lwc';
+/* eslint-disable no-alert */
+import { LightningElement, track,wire} from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 import getAllJourneyInit from '@salesforce/apex/TrainSheduleController.getAllJourneyInit';
 export default class TrainTrack extends LightningElement {
     @track trainShe;
@@ -20,19 +22,32 @@ export default class TrainTrack extends LightningElement {
     //{label: 'Bedroll', fieldName: 'Bedroll_Required__c', type: 'boolean'}
     ];
 
-    @wire(getAllJourneyInit)
-    getAllData({error, data})
+    @wire(getAllJourneyInit) wiredTrainShedule({err,data})
     {
-        if(data){
+        if(data)
+        {
             this.trainShe=data;
             this.isTrainSheEmpty=false;
-            this.working="Hurraaaaay";
         }
-        else if(error){
-            this.isTrainSheEmpty=true;
+        else if(err)
+        {
             this.trainShe=undefined;
-            this.error=error;
+            this.isTrainSheEmpty=true;
         }
+    }
+
+    addTrainShe()
+    {
+        //alert("Hi");
+        this[NavigationMixin.Navigate]({
+            type: 'standard__objectPage',
+            attributes: {
+                objectApiName: 'Train_Shedule__c',
+                actionName: 'new'
+            }
+        });
+
+    
     }
 
 }
