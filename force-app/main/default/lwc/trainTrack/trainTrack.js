@@ -31,8 +31,7 @@ export default class TrainTrack extends LightningElement {
         else if(error){
             this.isTrainSheEmpty=true;
             this.trainShe=undefined;
-            this.error=error
-            ;
+            this.error=error;
         }
     }
 

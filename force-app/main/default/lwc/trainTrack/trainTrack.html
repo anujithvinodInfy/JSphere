@@ -7,7 +7,18 @@
         <div slot="footer">
             <lightning-button variant="brand" icon-name="action:add_relationship" onclick={addTrainShe} class="slds-m-left_x-small"></lightning-button>
         </div>
-        <!-- <div if:true="">+</div> -->
-        <p class="slds-p-horizontal_small">Card Body (custom component)</p>
+        <template if:false={isTrainSheEmpty}>
+            <lightning-datatable data={trainShe} columns={columnList}></lightning-datatable>
+            {working}
+        </template>
+        <template if:true={isTrainSheEmpty}>
+
+            <div style="background-color:#E3B050; text-align:center; font-size:15px; font-weight: bold">
+                <b>You dont have any journey records</b></div>
+                {error}
+        </template>
+        
+
+        
     </lightning-card>
 </template>
