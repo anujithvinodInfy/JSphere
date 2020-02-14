@@ -1,0 +1,33 @@
+<template>
+    <template if:false={showBooking}>
+        <lightning-card >
+        <h3 slot="title">
+            <lightning-icon icon-name="custom:custom96" size="medium"></lightning-icon>
+            &nbsp; Booking open date: <b style="color: green;">{schedule.Booking_Open_Date__c}</b>
+        </h3>
+        <div style="height: 150px">
+            <form style="margin-left: 30px;">
+                Date of Journey : {schedule.Date_of_Journey__c} <br>
+                Boarding &emsp;&emsp;&emsp;: {schedule.Boarding_Station__c} <br>
+                Destinantion&emsp;: {schedule.Destination_Station__c} <br>
+                Train Name/Code : {schedule.Train_Name_Code__c} <br>
+                <template if:true={schedule.Is_Talkal__c}> Opted for <i><b>Talkal</b></i> Ticket <br> </template>
+                <template if:true={schedule.Is_Ac__c}> Opted for <i><b>AC</b> Ticket</i> 
+                <br>
+                <template if:true={schedule.Bedroll_Required__c}><i>Bedroll Opted</i> <br></template></template> 
+                Planned Booking Date    : {schedule.Planned_Booking_Date__c}
+            </form>
+        </div>
+        <div slot="footer">
+            <lightning-button label="View in Detail"
+            class="slds-m-around_medium" onclick={viewDetailed} ></lightning-button> 
+            &nbsp;
+            <lightning-button
+                    label="Edit Record"
+                    onclick={navigateToEdit}
+                ></lightning-button>
+
+        </div>
+    </lightning-card>
+    </template>
+</template>

@@ -1,0 +1,11 @@
+.blinking{
+    animation:blinkingText 1.2s infinite;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
+}
+@keyframes blinkingText{
+    0%{     color: rgb(203, 255, 113);    }
+    49%{    color: rgb(36, 121, 36); }
+    60%{    color: rgb(2, 49, 2);; }
+    99%{    color:rgba(0, 51, 0, 0.336);  }
+    100%{   color: transparent   }
+}
