@@ -1,20 +1,36 @@
-import { LightningElement, track } from 'lwc';
-import { NavigationMixin } from 'lightning/navigation';
+/* eslint-disable no-undef */
+/* eslint-disable no-alert */
+import { LightningElement, track,wire } from 'lwc';
+import { NavigationMixin,CurrentPageReference } from 'lightning/navigation';
+import { registerListener, unregisterAllListeners } from 'c/pubsub';
+// import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+import getJourneyDetails from '@salesforce/apex/TrainSheduleController.getJourneyDetails';
 export default class ShowSelectedBooking extends NavigationMixin(LightningElement) {
-    @track showBooking
-    @track schedule = {
-        "Date_of_Journey__c": "10-12-2020",
-        "Boarding_Station__c": "10-12-2020",
-        "Destination_Station__c": "10-12-2020",
-        "Train_Name_Code__c": "10-12-2020",
-        "Is_Talkal__c":true,
-        "Is_Ac__c": false,
-        "Bedroll_Required__c":true,
-        "Status_of_Booking__c": "Open",
-        "Planned_Booking_Date__c": "10-12-2020",
-        "Booking_Open_Date__c": "10-12-2020"
-    };
+    @track showBooking=false;
+    recordId='';
+    @track schedule;
+    @wire(CurrentPageReference) pageRef;
+    @wire(getJourneyDetails,{ recId: '$recordId'})
+    wiredMethod({error,data})
+    {
+        if(data)
+        {
+            this.schedule=data;
+            this.showBooking=true;
+        }
+        else if(error)
+        {    
+            this.showBooking=false;
+        }
+    }
 
+    connectedCallback()
+    {  
+        registerListener('sendTrainShedule', this.handleSelected, this);
+    }
+    disconnectedCallback() {
+        unregisterAllListeners(this);
+    }
     viewDetailed()
     {
         this[NavigationMixin.Navigate]({
@@ -28,6 +44,7 @@ export default class ShowSelectedBooking extends NavigationMixin(LightningElemen
     }
     navigateToEdit()
     {
+        // alert( this.schedule.Boarding_Station__c);
         this[NavigationMixin.Navigate]({
             type: 'standard__recordPage',
             attributes: {
@@ -36,5 +53,9 @@ export default class ShowSelectedBooking extends NavigationMixin(LightningElemen
                 actionName: 'edit'
             }
         });
+    }
+    handleSelected(record)
+    {
+        this.recordId=record;
     }
 }

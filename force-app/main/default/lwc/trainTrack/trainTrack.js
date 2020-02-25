@@ -1,6 +1,7 @@
-/* eslint-disable no-alert */
+
 import { LightningElement, track, wire } from 'lwc';
-import { NavigationMixin } from 'lightning/navigation';
+import { NavigationMixin,CurrentPageReference } from 'lightning/navigation';
+import {fireEvent } from 'c/pubsub';
 import getAllJourneyInit from '@salesforce/apex/TrainSheduleController.getAllJourneyInit';
 export default class TrainTrack extends NavigationMixin(LightningElement) {
     @track trainShe;
@@ -8,6 +9,10 @@ export default class TrainTrack extends NavigationMixin(LightningElement) {
     @track error;
     @track working;
     @track bShowModal=false;
+    @track openingTime;
+    @track recId
+    @track showTemplate=false;
+    @wire(CurrentPageReference) pageRef;
     recordId;
     columnList = [
         //{label: 'Booking ID', fieldName: 'Name', type: 'text'},
@@ -35,7 +40,6 @@ export default class TrainTrack extends NavigationMixin(LightningElement) {
         //{label: 'Ac', fieldName: 'Is_Ac__c', type: 'boolean'},
         //{label: 'Bedroll', fieldName: 'Bedroll_Required__c', type: 'boolean'}
     ];
-
     @wire(getAllJourneyInit) wiredTrainShedule({ err, data }) {
         if (data) {
             this.trainShe = data;
@@ -46,7 +50,6 @@ export default class TrainTrack extends NavigationMixin(LightningElement) {
             this.isTrainSheEmpty = true;
         }
     }
-
     addTrainShe() {
         //alert("Hi");
         //     this[NavigationMixin.Navigate]({
@@ -65,7 +68,6 @@ export default class TrainTrack extends NavigationMixin(LightningElement) {
             }
         });
     }
-
     viewAllShe() {
         this[NavigationMixin.Navigate]({
             type: 'standard__objectPage',
@@ -83,12 +85,21 @@ export default class TrainTrack extends NavigationMixin(LightningElement) {
         //this.row=event.detail.row;
         this.record = event.detail.row;
         this.bShowModal = true;
-        const selectedEvent = new CustomEvent('selected', { detail: this.record.Id });
-        this.dispatchEvent(selectedEvent);
+        this.recId=this.record.Id;
+        //window.console.log(this.record.Id);
+        this.showTemplate=true;
+        this.openingTime="8:00 AM";
+        if(this.record.Is_Talkal__c)
+        {
+            this.openingTime="10:00 AM";
+            if(this.record.Is_Ac__c)
+            {
+                this.openingTime="11:00 AM";
+            }
+        }
+        fireEvent(this.pageRef,'sendTrainShedule', this.record.Id);
     }
-
     closeModal() {
         this.bShowModal = false;
     }
-
 }

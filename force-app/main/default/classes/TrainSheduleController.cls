@@ -12,4 +12,19 @@ public with sharing class TrainSheduleController {
         //system.debug(listRecords.size()+100);
         return listRecords;
     }
+    
+    @AuraEnabled(cacheable = true)
+    public static Train_Shedule__c getJourneyDetails(ID recId)
+    {
+        List<Train_Shedule__c> journeydata= [SELECT Id, Name, CreatedDate, Boarding_Station__c, Destination_Station__c, 
+                     Planned_Booking_Date__c, Is_Talkal__c, Train_Name_Code__c, Name_of_Person__c, Age__c, Is_Ac__c,
+                     Bedroll_Required__c, Status_of_Booking__c, Date_of_Journey__c, Booking_Open_Date__c FROM Train_Shedule__c 
+                     where ID= :recId Limit 1];
+        if(journeydata.size()==0)
+        {
+            return null;
+        }
+        return journeydata[0];
+        
+    }
 }
