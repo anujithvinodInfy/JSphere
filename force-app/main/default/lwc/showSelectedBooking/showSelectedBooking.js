@@ -19,7 +19,7 @@ export default class ShowSelectedBooking extends NavigationMixin(LightningElemen
             this.showBooking=true;
         }
         else if(error)
-        {    
+        {   this.schedule=undefined;
             this.showBooking=false;
         }
     }
@@ -33,27 +33,36 @@ export default class ShowSelectedBooking extends NavigationMixin(LightningElemen
     }
     viewDetailed()
     {
+        // alert("KUNU KUNU");
         this[NavigationMixin.Navigate]({
             type: 'standard__recordPage',
             attributes: {
-                recordId: this.schedule.data.Id,
+                recordId: this.schedule.Id,
                 objectApiName: 'Train_Shedule__c',
                 actionName: 'view'
             }
         });
     }
+
+    clearDetailPage()
+    {
+        this.schedule=undefined;
+        this.showBooking=false;
+    }
+
     navigateToEdit()
     {
         // alert( this.schedule.Boarding_Station__c);
         this[NavigationMixin.Navigate]({
             type: 'standard__recordPage',
             attributes: {
-                recordId: this.schedule.data.Id,
+                recordId: this.schedule.Id,
                 objectApiName: 'Train_Shedule__c',
                 actionName: 'edit'
             }
         });
     }
+
     handleSelected(record)
     {
         this.recordId=record;

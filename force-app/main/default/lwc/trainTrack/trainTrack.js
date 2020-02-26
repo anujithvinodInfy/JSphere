@@ -1,4 +1,4 @@
-
+/* eslint-disable no-alert */
 import { LightningElement, track, wire } from 'lwc';
 import { NavigationMixin,CurrentPageReference } from 'lightning/navigation';
 import {fireEvent } from 'c/pubsub';
@@ -82,11 +82,16 @@ export default class TrainTrack extends NavigationMixin(LightningElement) {
     }
     showBookingDetails(event)
     {
-        //this.row=event.detail.row;
         this.record = event.detail.row;
+        //this.openModel();
+        fireEvent(this.pageRef,'sendTrainShedule', this.record.Id);
+    }
+    
+    openModal()
+    {
+        
         this.bShowModal = true;
         this.recId=this.record.Id;
-        //window.console.log(this.record.Id);
         this.showTemplate=true;
         this.openingTime="8:00 AM";
         if(this.record.Is_Talkal__c)
@@ -97,7 +102,6 @@ export default class TrainTrack extends NavigationMixin(LightningElement) {
                 this.openingTime="11:00 AM";
             }
         }
-        fireEvent(this.pageRef,'sendTrainShedule', this.record.Id);
     }
     closeModal() {
         this.bShowModal = false;

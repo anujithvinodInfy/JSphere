@@ -8,7 +8,7 @@
         <div style="height: 250px">
             <template if:false={isTrainSheEmpty}>
                 <lightning-datatable key-field="id" data={trainShe} hide-checkbox-column="true"
-                    onrowaction={showBookingDetails} columns={columnList}></lightning-datatable>
+                     onrowaction={showBookingDetails} columns={columnList}></lightning-datatable>
             </template>
         </div>
         <div slot="footer">
